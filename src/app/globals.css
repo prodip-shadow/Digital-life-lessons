@@ -1,15 +1,112 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-background: #111318;
+  --color-bg-card: #1A1D28;
+  --color-text-heading: #FFFFFF;
+  --color-text-body: #A0A8C0;
+  --color-on-surface: #e2e2e9;
+  --color-on-surface-variant: #d5c4af;
+  --color-bg-sidebar: #13161E;
+  --color-primary-container: #e8a838;
+  --color-surface-container-low: #1a1b21;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #ffc66b;
+  --color-primary-content: #281800;
+  --color-secondary: #c6c0ff;
+  --color-secondary-content: #150066;
+  --color-base-100: #111318;
+  --color-base-200: #1a1d28;
+  --color-base-300: #1e1f25;
+  --color-base-content: #e2e2e9;
+  --color-success: #3DD68C;
+  --color-error: #ffb4ab;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  prefersdark: true;
+  --color-primary: #ffc66b;
+  --color-primary-content: #281800;
+  --color-secondary: #c6c0ff;
+  --color-secondary-content: #150066;
+  --color-base-100: #111318;
+  --color-base-200: #1a1d28;
+  --color-base-300: #1e1f25;
+  --color-base-content: #e2e2e9;
+  --color-success: #3DD68C;
+  --color-error: #ffb4ab;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-inverse-surface: #e2e2e9;
+  --color-surface-tint: #fdba49;
+  --color-success: #3DD68C;
+  --color-secondary-fixed-dim: #c6c0ff;
+  --color-on-tertiary: #003354;
+  --color-on-primary: #432c00;
+  --color-surface-variant: #33353a;
+  --color-tertiary: #aad4ff;
+  --color-text-body: var(--color-text-body);
+  --color-outline: #9d8e7c;
+  --color-on-error: #690005;
+  --color-tertiary-fixed: #cee5ff;
+  --color-on-tertiary-fixed: #001d33;
+  --color-error-container: #93000a;
+  --color-on-primary-fixed: #281800;
+  --color-text-heading: var(--color-text-heading);
+  --color-on-background: var(--color-on-surface);
+  --color-background: var(--color-background);
+  --color-tertiary-fixed-dim: #97cbff;
+  --color-surface-container-low: var(--color-surface-container-low);
+  --color-tertiary-container: #6ebafe;
+  --color-inverse-primary: #805600;
+  --color-outline-variant: #504535;
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-error: #ffb4ab;
+  --color-primary-fixed-dim: #fdba49;
+  --color-surface-dim: var(--color-background);
+  --color-bg-sidebar: var(--color-bg-sidebar);
+  --color-primary-fixed: #ffddaf;
+  --color-inverse-on-surface: #2e3036;
+  --color-on-primary-fixed-variant: #614000;
+  --color-bg-card: var(--color-bg-card);
+  --color-on-secondary: #2700a1;
+  --color-primary-container: var(--color-primary-container);
+  --color-surface-container: var(--color-surface-container-low);
+  --color-danger: #F56565;
+  --color-surface-bright: #37393f;
+  --color-primary: var(--color-primary);
+  --color-on-secondary-container: #b3acff;
+  --color-surface-container-highest: #33353a;
+  --color-secondary-fixed: #e4dfff;
+  --color-secondary: var(--color-secondary);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-on-surface: var(--color-on-surface);
+  --color-on-tertiary-container: #004975;
+  --color-secondary-container: #3f2bb8;
+  --color-on-tertiary-fixed-variant: #004a77;
+  --color-on-secondary-fixed: #150066;
+  --color-surface: var(--color-background);
+  --color-surface-container-high: var(--color-surface-container-low);
+  --color-on-secondary-fixed-variant: #3f2bb8;
+  --color-surface-container-lowest: #0c0e13;
+  --color-on-error-container: #ffdad6;
+  --color-on-primary-container: #5f3f00;
+  --font-display-lg: 'Playfair Display';
+  --font-body-md: 'Inter';
+  --font-headline-md: 'Playfair Display';
+  --font-label-caps: 'Space Mono';
+  --font-button: 'Inter';
+  --font-display-lg-mobile: var(--font-playfair);
+  --font-serif: var(--font-playfair), serif;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-space-mono), monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +117,8 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background, #111318);
+  color: var(--color-on-surface, #e2e2e9);
+  font-family: var(--font-body-md, Arial, sans-serif);
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
