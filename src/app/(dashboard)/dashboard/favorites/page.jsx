@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import Card from '@/components/card/card';
 import { MdFavorite, MdSearch } from 'react-icons/md';
 import Link from 'next/link';
+import Loader from '@/components/loader/loader';
 
 export default function DashboardFavoritesPage() {
   const [lessons, setLessons] = useState([]);
@@ -35,12 +36,7 @@ export default function DashboardFavoritesPage() {
   }, [session, sessionPending]);
 
   if (sessionPending || !session || loading) {
-    return (
-      <div className="p-8 text-on-surface-variant font-sans text-center mt-20">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-        <p className="mt-4 text-sm text-text-body/60">Loading your favorites...</p>
-      </div>
-    );
+    return <Loader message="Loading your favorites..." />;
   }
 
   return (

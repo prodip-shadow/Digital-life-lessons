@@ -10,6 +10,7 @@ import {
   MdOpenInNew,
   MdTrendingUp
 } from 'react-icons/md';
+import Loader from '@/components/loader/loader';
 
 export default function EarningsHistoryPage() {
   const [earnings, setEarnings] = useState([]);
@@ -51,12 +52,7 @@ export default function EarningsHistoryPage() {
   }, [session, sessionPending]);
 
   if (sessionPending || !session || loading) {
-    return (
-      <div className="p-8 text-on-surface-variant font-sans text-center mt-20">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-        <p className="mt-4 text-sm text-text-body/60">Loading earnings history...</p>
-      </div>
-    );
+    return <Loader message="Loading earnings history..." />;
   }
 
   return (

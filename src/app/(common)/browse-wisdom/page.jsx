@@ -4,10 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Card from '@/components/card/card';
 import { MdSearch } from 'react-icons/md';
+import Loader from '@/components/loader/loader';
 
 export default function BrowseWisdom() {
   const [lessons, setLessons] = useState([]);
   const [filteredLessons, setFilteredLessons] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState('All Categories');
   const [sortBy, setSortBy] = useState('Newest');
@@ -21,7 +23,8 @@ export default function BrowseWisdom() {
         setLessons(data);
         setFilteredLessons(data);
       })
-      .catch(err => console.error("Failed to fetch browse lessons", err));
+      .catch(err => console.error("Failed to fetch browse lessons", err))
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -121,23 +124,27 @@ export default function BrowseWisdom() {
             </div>
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            transition={{ staggerChildren: 0.1 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-          >
-            {visibleLessons.map((lesson, idx) => (
-              <motion.div key={lesson.id || idx} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="h-full">
-                <Card {...lesson} />
-              </motion.div>
-            ))}
-            {visibleLessons.length === 0 && (
-              <div className="col-span-full py-12 text-center text-on-surface-variant">
-                No lessons found matching your filters.
-              </div>
-            )}
-          </motion.div>
+          {loading ? (
+            <Loader message="Gathering digital wisdom..." />
+          ) : (
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              transition={{ staggerChildren: 0.1 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              {visibleLessons.map((lesson, idx) => (
+                <motion.div key={lesson.id || idx} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="h-full">
+                  <Card {...lesson} />
+                </motion.div>
+              ))}
+              {visibleLessons.length === 0 && (
+                <div className="col-span-full py-12 text-center text-on-surface-variant font-sans">
+                  No lessons found matching your filters.
+                </div>
+              )}
+            </motion.div>
+          )}
 
           {/* Pagination */}
           {totalPages > 1 && (

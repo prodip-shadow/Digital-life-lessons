@@ -18,6 +18,7 @@ import {
 import { FaCrown } from 'react-icons/fa';
 import { authClient } from '@/lib/auth-client';
 import Card from '@/components/card/card';
+import Loader from '@/components/loader/loader';
 
 export default function UserProfilePage() {
   const params = useParams();
@@ -112,8 +113,7 @@ export default function UserProfilePage() {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-background">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-        <p className="mt-4 text-sm text-text-body/60 font-sans">Loading profile...</p>
+        <Loader message="Loading profile..." />
       </div>
     );
   }

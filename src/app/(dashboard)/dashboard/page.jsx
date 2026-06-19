@@ -18,6 +18,7 @@ import {
   MdPublic,
   MdVisibilityOff
 } from 'react-icons/md';
+import Loader from '@/components/loader/loader';
 
 export default function DashboardPage() {
   const [data, setData] = useState(null);
@@ -83,12 +84,7 @@ export default function DashboardPage() {
   };
 
   if (sessionPending || !session || !data) {
-    return (
-      <div className="p-8 text-on-surface-variant font-sans text-center mt-20">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-        <p className="mt-4 text-sm text-text-body/60">Loading dashboard...</p>
-      </div>
-    );
+    return <Loader message="Loading dashboard..." />;
   }
 
   return (
