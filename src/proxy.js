@@ -8,13 +8,6 @@ export async function proxy(request) {
 
   const { pathname } = request.nextUrl;
 
-  // If sessionToken exists, redirect logged-in users away from auth pages to dashboard
-  if (pathname.startsWith("/sign-in") || pathname.startsWith("/sign-up")) {
-    if (sessionToken) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
-  }
-
   // Protect dashboard, writing, and admin routes
   if (
     pathname.startsWith("/dashboard") || 
@@ -41,7 +34,5 @@ export const config = {
     "/add-lesson/:path*",
     "/admin-panel",
     "/admin-panel/:path*",
-    "/sign-in",
-    "/sign-up",
   ],
 };
