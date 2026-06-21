@@ -5,15 +5,43 @@ import Link from 'next/link';
 
 export default function AdminPanelPage() {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/admin/metrics')
-      .then(res => res.json())
-      .then(json => setData(json))
-      .catch(err => console.error(err));
+      .then(async (res) => {
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || `Error ${res.status}: Access Denied`);
+        }
+        return res.json();
+      })
+      .then(json => {
+        setData(json);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setError(err.message || "Failed to load admin panel metrics.");
+        setLoading(false);
+      });
   }, []);
 
-  if (!data) return <div className="p-8 text-on-surface-variant font-sans">Loading admin panel...</div>;
+  if (loading) return <div className="p-8 text-on-surface-variant font-sans">Loading admin panel...</div>;
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh] p-8 text-center bg-bg-card rounded-xl border border-white/5 font-sans my-12">
+        <span className="material-symbols-outlined text-6xl text-error mb-4">lock</span>
+        <h2 className="font-serif text-3xl font-semibold text-text-heading mb-2">Access Denied</h2>
+        <p className="text-text-body max-w-md mb-6">{error}</p>
+        <Link href="/" className="btn btn-primary">
+          Return to Home
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <>
