@@ -7,6 +7,7 @@ const client = mongoose.connection.getClient();
 const db = client.db("digital-life-lessons");
 
 export const auth = betterAuth({
+    trustedOrigins: ["http://localhost:3000", "http://localhost:3001", "https://digital-life-lessons-26.vercel.app"],
     database: mongodbAdapter(db, {
         client,
         collectionNames: {
