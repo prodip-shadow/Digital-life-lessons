@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -9,7 +9,7 @@ import Button from '@/components/button/button';
 import { authClient } from "@/lib/auth-client";
 import { MdMenuBook } from 'react-icons/md';
 
-export default function SignUpPage() {
+function SignUpContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
@@ -205,5 +205,13 @@ export default function SignUpPage() {
         </motion.div>
       </section>
     </main>
+  );
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-[#0D0F14]"><span className="loading loading-spinner loading-lg text-primary"></span></div>}>
+      <SignUpContent />
+    </Suspense>
   );
 }
