@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Form, Input } from '@/components/form/form';
 import Button from '@/components/button/button';
@@ -12,6 +13,17 @@ export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
+  
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || searchParams.get("redirect") || "/dashboard";
+
+  const { data: session } = authClient.useSession();
+
+  useEffect(() => {
+    if (session) {
+      window.location.href = callbackUrl;
+    }
+  }, [session, callbackUrl]);
 
   const handleSignUp = async (e) => {
     setIsLoading(true);
@@ -30,14 +42,14 @@ export default function SignUpPage() {
         password,
         name,
         image: photoUrl || undefined,
-        callbackURL: "/dashboard",
+        callbackURL: callbackUrl,
       });
       if (error) {
         setIsError(true);
         setMessage(error.message || "An error occurred during registration.");
       } else {
         setMessage('Account successfully created! Redirecting...');
-        window.location.href = "/dashboard";
+        window.location.href = callbackUrl;
       }
     } catch (err) {
       setIsError(true);
@@ -54,7 +66,7 @@ export default function SignUpPage() {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/dashboard"
+        callbackURL: callbackUrl
       });
     } catch (err) {
       setIsError(true);

@@ -8,7 +8,14 @@ export async function proxy(request) {
 
   const { pathname } = request.nextUrl;
 
-  // Protect dashboard, writing, and admin routes (Simple cookie check for performance)
+  // If sessionToken exists, redirect logged-in users away from auth pages to dashboard
+  if (pathname.startsWith("/sign-in") || pathname.startsWith("/sign-up")) {
+    if (sessionToken) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
+
+  // Protect dashboard, writing, and admin routes
   if (
     pathname.startsWith("/dashboard") || 
     pathname.startsWith("/add-lesson") || 
@@ -16,6 +23,7 @@ export async function proxy(request) {
   ) {
     if (!sessionToken) {
       const signInUrl = new URL("/sign-in", request.url);
+      // If they tried to access a specific page, save it as callback
       signInUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(signInUrl);
     }
@@ -33,5 +41,7 @@ export const config = {
     "/add-lesson/:path*",
     "/admin-panel",
     "/admin-panel/:path*",
+    "/sign-in",
+    "/sign-up",
   ],
 };
